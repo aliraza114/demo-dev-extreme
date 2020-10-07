@@ -1,28 +1,78 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <DxChart
+    id="chart"
+    :data-source="dataSource"
+    title="Gross State Product"
+    @pointClick="onPointClick"
+  >
+    <DxCommonSeriesSettings
+      argument-field="state"
+      type="bar"
+      hover-mode="allArgumentPoints"
+      selection-mode="allArgumentPoints"
+    >
+      <DxLabel :visible="true">
+        <DxFormat
+          :precision="0"
+          type="fixedPoint"
+        />
+      </DxLabel>
+    </DxCommonSeriesSettings>
+    <DxSeries
+      value-field="year2004"
+      name="2004"
+    />
+    <DxSeries
+      value-field="year2001"
+      name="2001"
+    />
+    <DxSeries
+      value-field="year1998"
+      name="1998"
+    />
+    <DxLegend
+      vertical-alignment="bottom"
+      horizontal-alignment="center"
+    />
+    <DxExport :enabled="true"/>
+  </DxChart>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {
+  DxChart,
+  DxSeries,
+  DxCommonSeriesSettings,
+  DxLabel,
+  DxFormat,
+  DxLegend,
+  DxExport
+} from 'devextreme-vue/chart';
+import { grossProductData } from './/assets/data';
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    DxChart,
+    DxSeries,
+    DxCommonSeriesSettings,
+    DxLabel,
+    DxFormat,
+    DxLegend,
+    DxExport
+  },
+  data() {
+    return {
+      dataSource: grossProductData
+    };
+  },
+  methods: {
+    onPointClick({ target }) {
+      target.select();
+    }
   }
-}
+};
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#chart {
+    height: 440px;
 }
 </style>
